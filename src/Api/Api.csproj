@@ -18,11 +18,12 @@
 
 	<ItemGroup>
 		<Folder Include="Controllers\" />
+		<Folder Include="Common\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\TaskOrganizer.Application\TaskOrganizer.Application.csproj" />
-	  <ProjectReference Include="..\TaskOrganizer.Infrastructure\TaskOrganizer.Infrastructure.csproj" />
+	  <ProjectReference Include="..\Application\Application.csproj" />
+	  <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

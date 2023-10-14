@@ -1,4 +1,4 @@
-﻿namespace TaskOrganizer.Api.Common.Http
+﻿namespace Api.Common.Http
 {
     public static class HttpContextItemKeys
     {

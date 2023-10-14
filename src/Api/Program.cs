@@ -1,8 +1,8 @@
+using Application;
+using Infrastructure;
+using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
-using TaskOrganizer.Application;
-using TaskOrganizer.Infrastructure;
-using TaskOrganizer.Infrastructure.Persistance;
-namespace TaskOrganizer.Api;
+namespace Api;
 
 public class Program
 {

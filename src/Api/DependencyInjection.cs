@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
-using TaskOrganizer.Api.Common.Errors;
+﻿using Api.Common.Errors;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-namespace TaskOrganizer.Api
+namespace Api
 {
     public static class DependencyInjection
     {

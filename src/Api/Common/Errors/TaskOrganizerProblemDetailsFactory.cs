@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 using ErrorOr;
 using System.Diagnostics;
-using TaskOrganizer.Api.Common.Http;
+using Api.Common.Http;
 
-namespace TaskOrganizer.Api.Common.Errors
+namespace Api.Common.Errors
 {
     /// <summary>
     /// Constructor.

@@ -2,7 +2,7 @@
 using FluentValidation;
 using MediatR;
 
-namespace TaskOrganizer.Application.Common.Behaviors
+namespace Application.Common.Behaviors
 {
     internal class ValidationBehavior<TRequest, TResponse> :
         IPipelineBehavior<TRequest, TResponse>

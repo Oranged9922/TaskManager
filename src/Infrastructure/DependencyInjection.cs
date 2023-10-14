@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using TaskOrganizer.Infrastructure.Persistance;
+﻿using Infrastructure.Persistance;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace TaskOrganizer.Infrastructure
+namespace Infrastructure
 {
     public static class DependencyInjection
     {

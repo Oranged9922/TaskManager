@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace TaskOrganizer.Infrastructure.Persistance
+namespace Infrastructure.Persistance
 {
     public class TaskOrganizerDbContext : DbContext
     {

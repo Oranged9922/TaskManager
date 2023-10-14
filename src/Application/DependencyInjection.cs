@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using TaskOrganizer.Application.Common.Behaviors;
 using System.Reflection;
+using Application.Common.Behaviors;
 
-namespace TaskOrganizer.Application
+namespace Application
 {
     public static class DependencyInjection
     {
