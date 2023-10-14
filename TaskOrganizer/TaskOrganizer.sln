@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskOrganizer", "TaskOrganizer.csproj", "{FDAA179D-C6BA-4043-BEC0-6A82918D5F43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskOrganizer.Api", "TaskOrganizer.Api.csproj", "{FDAA179D-C6BA-4043-BEC0-6A82918D5F43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskOrganizer.Application", "..\TaskOrganizer.Application\TaskOrganizer.Application.csproj", "{90D68801-7896-4C66-A8FB-B4A94083823D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskOrganizer.Infrastructure", "..\TaskOrganizer.Infrastructure\TaskOrganizer.Infrastructure.csproj", "{05B6A5B6-1E7C-4545-A63F-663690ECE41A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{FDAA179D-C6BA-4043-BEC0-6A82918D5F43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDAA179D-C6BA-4043-BEC0-6A82918D5F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDAA179D-C6BA-4043-BEC0-6A82918D5F43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90D68801-7896-4C66-A8FB-B4A94083823D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90D68801-7896-4C66-A8FB-B4A94083823D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90D68801-7896-4C66-A8FB-B4A94083823D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90D68801-7896-4C66-A8FB-B4A94083823D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05B6A5B6-1E7C-4545-A63F-663690ECE41A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05B6A5B6-1E7C-4545-A63F-663690ECE41A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05B6A5B6-1E7C-4545-A63F-663690ECE41A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05B6A5B6-1E7C-4545-A63F-663690ECE41A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
