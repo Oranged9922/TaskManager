@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.TOTaskAggregate;
+using Domain.UserAggregate;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistance
 {
@@ -7,7 +9,10 @@ namespace Infrastructure.Persistance
         public string DbPath { get; private set; }
         public string StoragePath { get; private set; }
 
-        public TaskOrganizerDbContext(DbContextOptions<TaskOrganizerDbContext> options)
+        public DbSet<User> Users { get; private set; }
+        public DbSet<TOTask> Tasks { get; private set; }
+
+        public TaskOrganizerDbContext()
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
@@ -32,6 +37,18 @@ namespace Infrastructure.Persistance
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TOTask>()
+                .Property(e => e.Id)
+                .HasConversion(
+                v => v.Value,
+                v => new TOTaskId(v));
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.Id)
+                .HasConversion(
+                v => v.Value,
+                v => new UserId(v));
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskOrganizerDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
         }

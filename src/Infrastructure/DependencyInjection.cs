@@ -1,4 +1,7 @@
-﻿using Infrastructure.Persistance;
+﻿using Application.Common.Interfaces;
+using Infrastructure.Persistance;
+using Infrastructure.Persistance.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure
@@ -15,7 +18,7 @@ namespace Infrastructure
 
         private static IServiceCollection AddPersistence(this IServiceCollection services)
         {
-            //services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITOTaskRepository, TOTaskRepository>();
             return services;
         }
 

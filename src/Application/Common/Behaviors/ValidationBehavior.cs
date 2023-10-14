@@ -4,18 +4,14 @@ using MediatR;
 
 namespace Application.Common.Behaviors
 {
-    internal class ValidationBehavior<TRequest, TResponse> :
+    internal class ValidationBehavior<TRequest, TResponse>(IValidator<TRequest>? validator = null) :
         IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
         where TResponse : IErrorOr
     {
 
-        private readonly IValidator<TRequest>? _validator;
+        private readonly IValidator<TRequest>? _validator = validator;
 
-        public ValidationBehavior(IValidator<TRequest>? validator = null)
-        {
-            _validator = validator;
-        }
         public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             if (_validator is null)
