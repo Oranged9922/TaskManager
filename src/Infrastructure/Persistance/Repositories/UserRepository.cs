@@ -47,5 +47,44 @@ namespace Infrastructure.Persistance.Repositories
                 .Include(u => u.CreatedTasks)
                 .SingleOrDefault(u => u.Id == id);
         }
+
+        public User? GetByUsername(string username)
+        {
+            return _context.Users
+                .Include(u => u.AssignedTasks)
+                .Include(u => u.CreatedTasks)
+                .SingleOrDefault(u => u.Username == username);
+        }
+
+        public void Update(User user)
+        {
+            _context.Update(user);
+            _context.SaveChanges();
+        }
+
+        public void Delete(User user)
+        {
+            _context.Remove(user);
+            _context.SaveChanges();
+        }
+
+        public void Delete(UserId id)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            if (user is not null)
+            {
+                _context.Remove(user);
+                _context.SaveChanges();
+            }
+        }
+
+        public bool Exists(UserId id)
+        {
+            return _context.Users.Any(u => u.Id == id);
+        }
+
+        public bool Exists(string username)
+        {
+            return _context.Users.Any(u => u.Username == username);
+        }
     }
-}
