@@ -1,6 +1,7 @@
-﻿using Domain.UserAggregate;
+﻿using Application.Common.Interfaces;
+using Domain.UserAggregate;
 
-namespace Application.Services.AuthorizationService
+namespace Infrastructure.Services.Authorization
 {
     public class AuthorizationService : IAuthorizationService
     {

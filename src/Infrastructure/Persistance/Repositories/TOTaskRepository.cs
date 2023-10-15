@@ -9,18 +9,13 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistance.Repositories
 {
-    internal class TOTaskRepository : ITOTaskRepository
+    internal class TOTaskRepository(TaskOrganizerDbContext context) : ITOTaskRepository
     {
-        private readonly TaskOrganizerDbContext _context;
-
-        public TOTaskRepository(TaskOrganizerDbContext context)
-        {
-            _context = context;
-        }
+        private readonly TaskOrganizerDbContext _context = context;
 
         public List<TOTask> GetAllTasks()
         {
-            return _context.Tasks.ToList();
+            return [.. _context.Tasks];
         }
 
         public TOTask? GetTaskById(TOTaskId id)

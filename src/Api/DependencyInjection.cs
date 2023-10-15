@@ -1,4 +1,5 @@
 ﻿using Api.Common.Errors;
+using Api.Common.Mappings;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Api
@@ -9,6 +10,8 @@ namespace Api
         {
             services.AddControllers();
             services.AddSingleton<ProblemDetailsFactory, TaskOrganizerProblemDetailsFactory>();
+            services.AddMappings();
+
             return services;
         }
     }

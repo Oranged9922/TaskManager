@@ -1,6 +1,6 @@
 ﻿using Domain.UserAggregate;
 
-namespace Application.Services.AuthorizationService
+namespace Application.Common.Interfaces
 {
     public interface IAuthorizationService
     {

@@ -87,4 +87,10 @@ namespace Infrastructure.Persistance.Repositories
         {
             return _context.Users.Any(u => u.Username == username);
         }
+
+        public User? GetByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
     }
+}

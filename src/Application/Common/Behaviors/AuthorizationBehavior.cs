@@ -1,7 +1,7 @@
 ﻿using Application.Common.Interfaces;
-using Application.Services.AuthorizationService;
 using ErrorOr;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 namespace Application.Common.Behaviors
 {
@@ -17,9 +17,22 @@ namespace Application.Common.Behaviors
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            // Extract JWT token from HTTP headers
-            var jwtToken = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().Split(" ")[1];
 
+            if(request is IAllowAnonymous)
+            {
+                return await next();
+            }
+
+            // Extract JWT token from HTTP headers
+            string jwtToken;
+            try
+            {
+                jwtToken = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().Split(" ")[1];
+            }
+            catch
+            {
+                return (dynamic)Domain.Common.Errors.Validation.UserNotAuthorized;
+            }
             // Get the current user from the context
             var currentUser = _userContext.GetCurrentUser(jwtToken);
 

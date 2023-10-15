@@ -11,6 +11,7 @@ namespace Application.Common.Interfaces
         bool Exists(string username);
         bool Exists(UserId id);
         User? Get(UserId id);
+        User? GetByEmail(string email);
         User? GetByUsername(string username);
         ErrorOr<User> GetCurrentUser(string jwtToken);
         void Update(User user);

@@ -13,7 +13,7 @@ public class Program
         builder.Services
             .AddPresentation()
             .AddApplication()
-            .AddInfrastructure();
+            .AddInfrastructure(builder.Configuration);
 
         WebApplication app = builder.Build();
 
