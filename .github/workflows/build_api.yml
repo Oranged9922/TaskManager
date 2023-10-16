@@ -1,0 +1,25 @@
+name: Build API
+
+on:
+  push:
+
+jobs:
+  build-dotnet:
+    name: Build API
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.x'
+      - name: Build API
+        run: |
+          cd src
+          dotnet publish -c Release -r win-x64 --self-contained true -o ./publish
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: API
+          path: ./publish
