@@ -1,10 +1,5 @@
 ﻿using Contracts.User.CreateUser;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UserLogic.Commands.CreateUser
 {
@@ -12,15 +7,17 @@ namespace Application.UserLogic.Commands.CreateUser
     {
         public CreateUserCommandValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().EmailAddress();
-            RuleFor(x => x.Password).NotEmpty().MinimumLength(8).ChildRules(password =>
-            {
-                password.RuleFor(x => x).Must(x => x.Any(char.IsUpper)).WithMessage("Password must contain at least one uppercase letter");
-                password.RuleFor(x => x).Must(x => x.Any(char.IsLower)).WithMessage("Password must contain at least one lowercase letter");
-                password.RuleFor(x => x).Must(x => x.Any(char.IsDigit)).WithMessage("Password must contain at least one digit");
-                password.RuleFor(x => x).Must(x => x.Any(char.IsSymbol)).WithMessage("Password must contain at least one symbol");
-            });
-            RuleFor(x => x.Username).NotEmpty();
+            RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Your e-mail address is not valid.");
+            RuleFor(p => p.Password).NotEmpty().WithMessage("Your password cannot be empty")
+                    .MinimumLength(8).WithMessage("Your password length must be at least 8 symbols long.")
+                    .MaximumLength(16).WithMessage("Your password length must not exceed 16 symbols.")
+                    .Matches(@"[A-Z]+").WithMessage("Your password must contain at least one uppercase letter.")
+                    .Matches(@"[a-z]+").WithMessage("Your password must contain at least one lowercase letter.")
+                    .Matches(@"[0-9]+").WithMessage("Your password must contain at least one number.")
+                    .Matches(@"[\!\?\*\.]+").WithMessage("Your password must contain at least one (!? *.).");
+            RuleFor(x => x.Username).NotEmpty().WithMessage("Your username cannot be empty")
+                .MaximumLength(24).WithMessage("Your username length must not exceed 24 symbols long.")
+                .MinimumLength(3).WithMessage("Your username length must be at least 3 symbols long.");
         }
     }
 }

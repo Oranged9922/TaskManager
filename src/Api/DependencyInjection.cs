@@ -11,7 +11,6 @@ namespace Api
             services.AddControllers();
             services.AddSingleton<ProblemDetailsFactory, TaskOrganizerProblemDetailsFactory>();
             services.AddMappings();
-
             return services;
         }
     }

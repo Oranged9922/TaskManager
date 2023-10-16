@@ -14,8 +14,9 @@ namespace Api.Common.Errors
     /// <param name="options"> The API behavior options.</param>
     /// <param name="problemDetailsOptions"> The problem details options.</param>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="options"/> is null.</exception>
-    public class TaskOrganizerProblemDetailsFactory(IOptions<ApiBehaviorOptions> options,
-                                      IOptions<ProblemDetailsOptions>? problemDetailsOptions = null) : ProblemDetailsFactory
+    public class TaskOrganizerProblemDetailsFactory(
+        IOptions<ApiBehaviorOptions> options,
+        IOptions<ProblemDetailsOptions>? problemDetailsOptions = null) : ProblemDetailsFactory
     {
         private readonly ApiBehaviorOptions options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         private readonly Action<ProblemDetailsContext>? configure = problemDetailsOptions?.Value?.CustomizeProblemDetails;
@@ -30,12 +31,13 @@ namespace Api.Common.Errors
         /// <param name="detail"> The detail.</param>
         /// <param name="instance"> The instance.</param>
         /// <returns> The problem details.</returns>
-        public override ProblemDetails CreateProblemDetails(HttpContext httpContext,
-                                                            int? statusCode = null,
-                                                            string? title = null,
-                                                            string? type = null,
-                                                            string? detail = null,
-                                                            string? instance = null)
+        public override ProblemDetails CreateProblemDetails(
+        HttpContext httpContext,
+        int? statusCode = null,
+        string? title = null,
+        string? type = null,
+        string? detail = null,
+        string? instance = null)
         {
             statusCode ??= 500;
 
@@ -45,7 +47,7 @@ namespace Api.Common.Errors
                 Title = title,
                 Type = type,
                 Detail = detail,
-                Instance = instance
+                Instance = instance,
             };
 
             ApplyProblemDetailsDefaults(httpContext, problemDetails, statusCode.Value);
@@ -65,13 +67,14 @@ namespace Api.Common.Errors
         /// <param name="detail"> The detail.</param>
         /// <param name="instance"> The instance.</param>
         /// <returns> The validation problem details.</returns>
-        public override ValidationProblemDetails CreateValidationProblemDetails(HttpContext httpContext,
-                                                                                ModelStateDictionary modelStateDictionary,
-                                                                                int? statusCode = null,
-                                                                                string? title = null,
-                                                                                string? type = null,
-                                                                                string? detail = null,
-                                                                                string? instance = null)
+        public override ValidationProblemDetails CreateValidationProblemDetails(
+               HttpContext httpContext,
+               ModelStateDictionary modelStateDictionary,
+               int? statusCode = null,
+               string? title = null,
+               string? type = null,
+               string? detail = null,
+               string? instance = null)
         {
             ArgumentNullException.ThrowIfNull(modelStateDictionary);
 
@@ -113,7 +116,7 @@ namespace Api.Common.Errors
             }
 
             string? traceId = Activity.Current?.Id ?? httpContext?.TraceIdentifier;
-            if (traceId is null)
+            if (traceId != null)
             {
                 problemDetails.Extensions["traceId"] = traceId;
             }
@@ -123,7 +126,7 @@ namespace Api.Common.Errors
             List<Error>? errors = httpContext?.Items[HttpContextItemKeys.Errors] as List<Error>;
             if (errors is not null)
             {
-                problemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code));
+                problemDetails.Extensions.Add("errors", errors.Select(e => (e.Code, e.Description)));
             }
         }
     }

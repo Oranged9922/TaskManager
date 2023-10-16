@@ -6,19 +6,19 @@ using Microsoft.AspNetCore.Http;
 namespace Application.Common.Behaviors
 {
 
-    internal class AuthorizationBehavior<TRequest, TResponse>(IAuthorizationService authorizationService, IUserRepository userRepository, IHttpContextAccessor httpContextAccessor) :
+    internal class AuthorizationBehavior<TRequest, TResponse>(Interfaces.IAuthorizationService authorizationService, IUserRepository userRepository, IHttpContextAccessor httpContextAccessor) :
         IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
         where TResponse : IErrorOr
     {
-        private readonly IAuthorizationService _authorizationService = authorizationService ?? throw new ArgumentNullException(nameof(authorizationService));
+        private readonly Interfaces.IAuthorizationService _authorizationService = authorizationService ?? throw new ArgumentNullException(nameof(authorizationService));
         private readonly IUserRepository _userContext = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
 
-            if(request is IAllowAnonymous)
+            if (request is IAllowAnonymous)
             {
                 return await next();
             }
@@ -46,10 +46,10 @@ namespace Application.Common.Behaviors
                 return await next();
             }
 
-            List<Error> errors =
-            [
+            List<Error> errors = new()
+                {
                 Domain.Common.Errors.Validation.UserNotAuthorized,
-            ];
+            };
 
             return (dynamic)errors;
         }

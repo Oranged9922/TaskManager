@@ -1,3 +1,4 @@
+using Api.Common.Errors;
 using Application;
 using Infrastructure;
 using Infrastructure.Persistance;
@@ -14,19 +15,30 @@ public class Program
             .AddPresentation()
             .AddApplication()
             .AddInfrastructure(builder.Configuration);
+        builder.Services.AddCors();
+        builder.Services.AddControllers();
 
         WebApplication app = builder.Build();
+        {
 
+            app.UseExceptionHandler("/error");
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.MapControllers();
+            app.UseCors(builder =>
+            {
+                builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+            using var scope = app.Services.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<TaskOrganizerDbContext>();
+            context.Database.EnsureCreated();
+            context.Database.Migrate();
 
-        app.UseExceptionHandler("/error");
-        app.UseHttpsRedirection();
-        app.MapControllers();
-
-        using var scope = app.Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<TaskOrganizerDbContext>();
-        context.Database.EnsureCreated();
-        context.Database.Migrate();
-
-        app.Run();
+            app.Run();
+        }
     }
 }

@@ -12,23 +12,29 @@ namespace Application.Common.Behaviors
 
         private readonly IValidator<TRequest>? _validator = validator;
 
-        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(
+           TRequest request,
+           RequestHandlerDelegate<TResponse> next,
+           CancellationToken cancellationToken)
         {
-            if (_validator is null)
+            if (validator is null)
             {
-                return next();
+                return await next();
             }
 
-            FluentValidation.Results.ValidationResult validationResult = _validator.Validate(request);
-
+            // before the handler
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            FluentValidation.Results.ValidationResult validationResult = await _validator.ValidateAsync(request, cancellationToken);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             if (validationResult.IsValid)
             {
-                return next();
+                return await next();
             }
 
-            List<Error> errors = validationResult.Errors.ConvertAll(validationFailure => Error.Validation(
-                validationFailure.PropertyName,
-                validationFailure.ErrorMessage));
+            List<Error> errors = validationResult.Errors
+                .ConvertAll(validationFailure => Error.Validation(
+                     validationFailure.PropertyName,
+                     validationFailure.ErrorMessage));
 
             return (dynamic)errors;
         }
