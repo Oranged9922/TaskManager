@@ -1,3 +1,6 @@
+[![codecov](https://codecov.io/gh/Oranged9922/TaskManager/graph/badge.svg?token=R67FS4S56J)](https://codecov.io/gh/Oranged9922/TaskManager)
+[![tests](https://github.com/Oranged9922/TaskManager/actions/workflows/test_api.yml/badge.svg)]()
+[![build](https://github.com/Oranged9922/TaskManager/actions/workflows/build_api.yml/badge.svg)]()
 # TaskManager
 
 ## Overview
