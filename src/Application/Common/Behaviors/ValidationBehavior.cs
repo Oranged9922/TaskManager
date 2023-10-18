@@ -4,13 +4,11 @@ using MediatR;
 
 namespace Application.Common.Behaviors
 {
-    internal class ValidationBehavior<TRequest, TResponse>(IValidator<TRequest>? validator = null) :
+    public class ValidationBehavior<TRequest, TResponse>(IValidator<TRequest>? validator) :
         IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
         where TResponse : IErrorOr
     {
-
-        private readonly IValidator<TRequest>? _validator = validator;
 
         public async Task<TResponse> Handle(
            TRequest request,
@@ -23,9 +21,7 @@ namespace Application.Common.Behaviors
             }
 
             // before the handler
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            FluentValidation.Results.ValidationResult validationResult = await _validator.ValidateAsync(request, cancellationToken);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            FluentValidation.Results.ValidationResult validationResult = await validator.ValidateAsync(request, cancellationToken);
             if (validationResult.IsValid)
             {
                 return await next();

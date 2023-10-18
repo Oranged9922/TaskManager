@@ -4,9 +4,13 @@
     /// Base class for entities.
     /// </summary>
     /// <typeparam name="TId"> The type of the id.</typeparam>
-    public abstract class Entity<TId> : IEquatable<Entity<TId>>
+    public abstract class Entity<TId> : IEquatable<Entity<TId>>, IHasDomainEvents
         where TId : notnull
     {
+
+        private readonly List<IDomainEvent> _domainEvents = new();
+
+        public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity{TId}"/> class.
         /// </summary>
@@ -70,6 +74,16 @@
         public override int GetHashCode()
         {
             return Id.GetHashCode();
+        }
+
+        public void AddDomainEvent(IDomainEvent domainEvent)
+        {
+            _domainEvents.Add(domainEvent);
+        }
+
+        public void ClearDomainEvents()
+        {
+            _domainEvents.Clear();
         }
     }
 }

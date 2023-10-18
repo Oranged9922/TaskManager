@@ -25,7 +25,7 @@ namespace IntegrationTests
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-            ExpectedErrorsList expectedErrors = null;
+            ExpectedErrorsList? expectedErrors = null;
             Assert.True(await HasExpectedErrors(response, expectedErrors));
         }
 
@@ -41,7 +41,7 @@ namespace IntegrationTests
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-            ExpectedErrorsList expectedErrors = null;
+            ExpectedErrorsList? expectedErrors = null;
             Assert.True(await HasExpectedErrors(response, expectedErrors));
         }
 

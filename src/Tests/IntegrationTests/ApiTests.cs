@@ -32,7 +32,7 @@ namespace IntegrationTests
 
                 foreach (var dbSetProperty in dbSets)
                 {
-                    dynamic dbSet = dbSetProperty.GetValue(context);
+                    dynamic dbSet = dbSetProperty.GetValue(context)!;
                     context.RemoveRange(dbSet);
                 }
 

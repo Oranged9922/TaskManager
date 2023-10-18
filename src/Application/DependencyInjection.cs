@@ -16,12 +16,11 @@ namespace Application
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddMediatR(typeof(DependencyInjection).Assembly);
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
-            //services.AddFluentValidationAutoValidation();
 
             services.AddValidatorsFromAssemblyContaining<CreateUserCommandValidator>();
 

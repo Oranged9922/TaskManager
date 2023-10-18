@@ -1,5 +1,6 @@
 ﻿using Domain.Common.Models;
 using Domain.TOTaskAggregate;
+using Domain.UserAggregate.Events;
 
 namespace Domain.UserAggregate
 {
@@ -39,9 +40,13 @@ namespace Domain.UserAggregate
         public static User Create(
             string username, string email, string passwordHash, UserRole role, List<TOTask> assignedTasks, List<TOTask> createdTasks)
         {
-            return new(
+            User user = new(
                 UserId.CreateUnique(),
                 username, email, passwordHash, role, assignedTasks, createdTasks);
+
+            user.AddDomainEvent(new UserCreated(user));
+
+            return user;
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using Domain.TOTaskAggregate;
+﻿using Domain.Common.Models;
+using Domain.TOTaskAggregate;
 using Domain.UserAggregate;
+using Infrastructure.Persistance.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistance
@@ -12,8 +14,12 @@ namespace Infrastructure.Persistance
         public DbSet<User> Users { get; private set; }
         public DbSet<TOTask> Tasks { get; private set; }
 
-        public TaskOrganizerDbContext()
+        private readonly PublishDomainEventsInterceptor _publishDomainEventsInterceptor;
+
+        public TaskOrganizerDbContext(PublishDomainEventsInterceptor publishDomainEventsInterceptor)
         {
+            _publishDomainEventsInterceptor = publishDomainEventsInterceptor;
+
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
             // include name of the project in the path
@@ -30,6 +36,7 @@ namespace Infrastructure.Persistance
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
+            options.AddInterceptors(_publishDomainEventsInterceptor);
             options.UseLazyLoadingProxies();
             options.UseSqlite($"Data Source={DbPath}");
             base.OnConfiguring(options);
@@ -37,6 +44,7 @@ namespace Infrastructure.Persistance
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<TOTask>()
                 .Property(e => e.Id)
                 .HasConversion(
@@ -49,7 +57,9 @@ namespace Infrastructure.Persistance
                 v => v.Value,
                 v => new UserId(v));
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskOrganizerDbContext).Assembly);
+            modelBuilder
+                .Ignore<List<IDomainEvent>>()
+                .ApplyConfigurationsFromAssembly(typeof(TaskOrganizerDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
         }
     }

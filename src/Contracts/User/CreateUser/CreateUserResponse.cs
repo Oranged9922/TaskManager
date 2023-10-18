@@ -2,9 +2,5 @@
 
 namespace Contracts.User.CreateUser
 {
-    public record class CreateUserResponse
-    {
-        public UserId UserId { get; init; } = default!;
-        public string JwtToken { get; init; } = string.Empty;
-    }
+    public record CreateUserResponse(UserId UserId, string JwtToken);
 }

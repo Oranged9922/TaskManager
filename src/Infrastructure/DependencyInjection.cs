@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Infrastructure.Persistance;
+using Infrastructure.Persistance.Interceptors;
 using Infrastructure.Persistance.Repositories;
 using Infrastructure.Services.Authentication;
 using Infrastructure.Services.Authorization;
@@ -25,6 +26,7 @@ namespace Infrastructure
 
         private static IServiceCollection AddPersistence(this IServiceCollection services)
         {
+            services.AddScoped<PublishDomainEventsInterceptor>();
             services.AddScoped<ITOTaskRepository, TOTaskRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             return services;
