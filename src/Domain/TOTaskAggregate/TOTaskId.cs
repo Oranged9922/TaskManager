@@ -1,5 +1,4 @@
 ﻿using Domain.Common.Models;
-using Domain.UserAggregate;
 
 namespace Domain.TOTaskAggregate
 {

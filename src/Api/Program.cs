@@ -1,8 +1,6 @@
-using Api.Common.Errors;
 using Application;
 using Infrastructure;
-using Infrastructure.Persistance;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Persistence;
 namespace Api;
 
 public class Program

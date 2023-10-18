@@ -1,5 +1,4 @@
-﻿using Contracts.User.CreateUser;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Application.UserLogic.Commands.CreateUser
 {

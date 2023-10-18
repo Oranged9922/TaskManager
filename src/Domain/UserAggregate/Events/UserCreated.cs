@@ -2,5 +2,5 @@
 
 namespace Domain.UserAggregate.Events
 {
-   public record UserCreated(User User) : IDomainEvent;
+    public record UserCreated(User User) : IDomainEvent;
 }

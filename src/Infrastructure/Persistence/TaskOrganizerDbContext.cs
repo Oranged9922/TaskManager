@@ -1,10 +1,10 @@
 ﻿using Domain.Common.Models;
 using Domain.TOTaskAggregate;
 using Domain.UserAggregate;
-using Infrastructure.Persistance.Interceptors;
+using Infrastructure.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistance
+namespace Infrastructure.Persistence
 {
     public class TaskOrganizerDbContext : DbContext
     {

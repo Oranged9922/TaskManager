@@ -1,6 +1,5 @@
 ﻿using Api;
 using Contracts.User.CreateUser;
-using ErrorOr;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using System.Net.Http.Json;
@@ -58,7 +57,7 @@ namespace IntegrationTests
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
             ExpectedErrorsList expectedErrors = [
                 ("Email", ["Your e-mail address is not valid."])
-                ] ;
+                ];
 
             Assert.True(await HasExpectedErrors(response, expectedErrors));
 
@@ -75,7 +74,7 @@ namespace IntegrationTests
             var response = await Client.PostAsJsonAsync(_endpoint, request);
             Assert.NotNull(response);
             ExpectedErrorsList expectedErrors = [
-                ("Password", 
+                ("Password",
                     [
                         "Your password must contain at least one uppercase letter.",
                         "Your password must contain at least one number.",
@@ -128,7 +127,7 @@ namespace IntegrationTests
 
             Assert.True(await HasExpectedTitle(response, expectedTitle));
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
-            
+
         }
 
         [Fact]
@@ -155,7 +154,7 @@ namespace IntegrationTests
             Assert.True(await HasExpectedTitle(response, expectedTitle));
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
 
-            
+
         }
     }
 }

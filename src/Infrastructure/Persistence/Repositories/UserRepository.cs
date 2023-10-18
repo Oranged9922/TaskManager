@@ -3,7 +3,7 @@ using Domain.UserAggregate;
 using ErrorOr;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
-namespace Infrastructure.Persistance.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class UserRepository(TaskOrganizerDbContext dbContext) : IUserRepository
     {

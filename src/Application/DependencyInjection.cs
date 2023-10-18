@@ -1,12 +1,9 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using Application.Common.Behaviors;
-using Microsoft.AspNetCore.Http;
-using FluentValidation;
-using System.Reflection;
+﻿using Application.Common.Behaviors;
 using Application.UserLogic.Commands.CreateUser;
-using Contracts.User.CreateUser;
-using FluentValidation.AspNetCore;
+using FluentValidation;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
 {

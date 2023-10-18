@@ -1,7 +1,7 @@
 ﻿using Application.Common.Interfaces;
-using Infrastructure.Persistance;
-using Infrastructure.Persistance.Interceptors;
-using Infrastructure.Persistance.Repositories;
+using Infrastructure.Persistence;
+using Infrastructure.Persistence.Interceptors;
+using Infrastructure.Persistence.Repositories;
 using Infrastructure.Services.Authentication;
 using Infrastructure.Services.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

@@ -1,7 +1,7 @@
 ﻿using Domain.TOTaskAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-namespace Infrastructure.Persistance.Configurations
+namespace Infrastructure.Persistence.Configurations
 {
 
     public class TOTaskConfiguration : IEntityTypeConfiguration<TOTask>

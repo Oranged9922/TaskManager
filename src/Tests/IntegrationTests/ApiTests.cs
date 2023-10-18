@@ -1,11 +1,8 @@
-﻿using ErrorOr;
-using Infrastructure.Persistance;
+﻿using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using System.Text.Json;
 
 namespace IntegrationTests
@@ -48,7 +45,7 @@ namespace IntegrationTests
         public async Task<bool> HasExpectedErrors(HttpResponseMessage response, List<(string Code, List<string> Descriptions)>? expected)
         {
             if (expected is null || expected.Count == 0) { return true; }
-            
+
             string content = await response.Content.ReadAsStringAsync();
             var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(content)!;
             if (problemDetails.Extensions.TryGetValue("errors", out object? errors))
