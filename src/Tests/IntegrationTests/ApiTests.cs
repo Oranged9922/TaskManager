@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using System.Text.Json;
 
 namespace IntegrationTests
@@ -25,9 +26,17 @@ namespace IntegrationTests
             using (var scope = _factory.Services.CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<TaskOrganizerDbContext>();
+                var dbSets = context.GetType().GetProperties()
+                    .Where(p => p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
+                    .ToList();
 
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
+                foreach (var dbSetProperty in dbSets)
+                {
+                    dynamic dbSet = dbSetProperty.GetValue(context);
+                    context.RemoveRange(dbSet);
+                }
+
+                context.SaveChanges();
             }
         }
 
