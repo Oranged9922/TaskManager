@@ -26,9 +26,8 @@ namespace IntegrationTests
             {
                 var context = scope.ServiceProvider.GetRequiredService<TaskOrganizerDbContext>();
 
-                context.Users.RemoveRange(context.Users);
-                context.Tasks.RemoveRange(context.Tasks);
-                context.SaveChanges();
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
             }
         }
 
