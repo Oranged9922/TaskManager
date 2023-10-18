@@ -23,6 +23,8 @@ namespace IntegrationTests
             using var scope = _factory.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<TaskOrganizerDbContext>();
 
+            context.Database.EnsureCreated();
+
             if (delete)
             {
                 context.Database.EnsureDeleted();
