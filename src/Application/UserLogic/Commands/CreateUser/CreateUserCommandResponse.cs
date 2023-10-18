@@ -2,5 +2,5 @@
 
 namespace Application.UserLogic.Commands.CreateUser
 {
-    public record CreateUserCommandResponse(UserId Id, string Token);
+    public record CreateUserCommandResponse(UserId Id, string JwtToken);
 }

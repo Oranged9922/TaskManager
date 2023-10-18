@@ -20,21 +20,19 @@ namespace IntegrationTests
 
         public void ClearDatabase()
         {
-            using (var scope = _factory.Services.CreateScope())
+            using var scope = _factory.Services.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<TaskOrganizerDbContext>();
+            var dbSets = context.GetType().GetProperties()
+                .Where(p => p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
+                .ToList();
+
+            foreach (var dbSetProperty in dbSets)
             {
-                var context = scope.ServiceProvider.GetRequiredService<TaskOrganizerDbContext>();
-                var dbSets = context.GetType().GetProperties()
-                    .Where(p => p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
-                    .ToList();
-
-                foreach (var dbSetProperty in dbSets)
-                {
-                    dynamic dbSet = dbSetProperty.GetValue(context)!;
-                    context.RemoveRange(dbSet);
-                }
-
-                context.SaveChanges();
+                dynamic dbSet = dbSetProperty.GetValue(context)!;
+                context.RemoveRange(dbSet);
             }
+
+            context.SaveChanges();
         }
 
         public void Dispose()
@@ -42,7 +40,7 @@ namespace IntegrationTests
             ClearDatabase();
         }
 
-        public async Task<bool> HasExpectedErrors(HttpResponseMessage response, List<(string Code, List<string> Descriptions)>? expected)
+        public static async Task<bool> HasExpectedErrors(HttpResponseMessage response, List<(string Code, List<string> Descriptions)>? expected)
         {
             if (expected is null || expected.Count == 0) { return true; }
 
@@ -51,13 +49,13 @@ namespace IntegrationTests
             if (problemDetails.Extensions.TryGetValue("errors", out object? errors))
             {
                 var _errors = CreateListFromObject(errors);
-                return _HasExpectedErrors(_errors, expected);
+                return HasExpectedErrors(_errors, expected);
             }
 
             return false;
         }
 
-        public async Task<bool> HasExpectedTitle(HttpResponseMessage response, string? title)
+        public static async Task<bool> HasExpectedTitle(HttpResponseMessage response, string? title)
         {
             string content = await response.Content.ReadAsStringAsync();
             var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(content)!;
@@ -68,7 +66,7 @@ namespace IntegrationTests
             return title is null;
         }
 
-        public bool _HasExpectedErrors(List<(string code, List<string> descriptions)>? response, List<(string code, List<string> descriptions)>? errors)
+        private static bool HasExpectedErrors(List<(string code, List<string> descriptions)>? response, List<(string code, List<string> descriptions)>? errors)
         {
             if (response is null || response.Count == 0) return false;
             if (errors is null || errors.Count == 0) return false;
@@ -77,9 +75,9 @@ namespace IntegrationTests
                 return false;
             }
 
-            foreach (var error in errors)
+            foreach (var (code, descriptions) in errors)
             {
-                if (!response.Any(r => r.code == error.code && r.descriptions.SequenceEqual(error.descriptions)))
+                if (!response.Any(r => r.code == code && r.descriptions.SequenceEqual(descriptions)))
                 {
                     return false;
                 }
@@ -88,7 +86,7 @@ namespace IntegrationTests
             return true;
         }
 
-        public List<(string, List<string>)> CreateListFromObject(object? errors)
+        public static List<(string, List<string>)> CreateListFromObject(object? errors)
         {
             var list = new List<(string, List<string>)>();
             if (errors is JsonElement element && element.ValueKind == JsonValueKind.Object)
@@ -96,7 +94,7 @@ namespace IntegrationTests
                 foreach (JsonProperty prop in element.EnumerateObject())
                 {
                     string code = prop.Name;
-                    List<string> descriptions = new List<string>();
+                    List<string> descriptions = [];
                     if (prop.Value.ValueKind == JsonValueKind.Array)
                     {
                         foreach (JsonElement descElement in prop.Value.EnumerateArray())

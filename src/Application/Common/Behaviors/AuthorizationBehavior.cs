@@ -27,7 +27,7 @@ namespace Application.Common.Behaviors
             string jwtToken;
             try
             {
-                jwtToken = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().Split(" ")[1];
+                jwtToken = _httpContextAccessor.HttpContext!.Request.Headers.Authorization.ToString().Split(" ")[1];
             }
             catch
             {
@@ -46,10 +46,10 @@ namespace Application.Common.Behaviors
                 return await next();
             }
 
-            List<Error> errors = new()
-                {
+            List<Error> errors =
+                [
                 Domain.Common.Errors.Validation.UserNotAuthorized,
-            };
+                ];
 
             return (dynamic)errors;
         }

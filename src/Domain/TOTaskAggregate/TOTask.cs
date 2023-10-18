@@ -1,4 +1,5 @@
 ﻿using Domain.Common.Models;
+using Domain.TOTaskAggregate.Events;
 using Domain.UserAggregate;
 
 namespace Domain.TOTaskAggregate
@@ -53,7 +54,7 @@ namespace Domain.TOTaskAggregate
             List<TOTask> blockedBy,
             List<TOTask> blocks)
         {
-            return new(
+            TOTask task = new(
                 TOTaskId.CreateUnique(),
                 title,
                 description,
@@ -64,6 +65,10 @@ namespace Domain.TOTaskAggregate
                 assignedTo,
                 blockedBy,
                 blocks);
+
+            task.AddDomainEvent(new TOTaskCreated(task));
+
+            return task;
         }
     }
 }

@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using System.Net.Http.Json;
 
-using ExpectedErrorsList = System.Collections.Generic.List<(string title, System.Collections.Generic.List<string> descriptions)>;
-
 namespace IntegrationTests
 {
     public class CreateUserTests(WebApplicationFactory<Program> factory) : ApiTests(factory)

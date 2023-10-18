@@ -10,7 +10,6 @@ namespace Domain.UserAggregate
         public string Email { get; private set; } = string.Empty;
         public string PasswordHash { get; private set; } = string.Empty;
         public UserRole Role { get; private set; } = UserRole.Guest;
-
         public virtual List<TOTask> AssignedTasks { get; private set; } = [];
         public virtual List<TOTask> CreatedTasks { get; private set; } = [];
 

@@ -25,5 +25,14 @@ namespace Domain.Common.Errors
                 code: "702",
                 description: "User is not authorized."
             );
+
+        /// <summary>
+        /// Representing an error when user provided invalid credentials
+        /// </summary>
+        public static readonly Error InvalidCredentials = Error.Validation
+            (
+                code: "703",
+                description: "Invalid credentials."
+            );
     }
 }
