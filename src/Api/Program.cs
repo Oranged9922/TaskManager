@@ -1,6 +1,7 @@
 using Application;
 using Infrastructure;
 using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 namespace Api;
 
 public class Program
@@ -33,7 +34,7 @@ public class Program
             });
             using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<TaskOrganizerDbContext>();
-            context.Database.EnsureCreated();
+            context.Database.Migrate();
 
             app.Run();
         }
