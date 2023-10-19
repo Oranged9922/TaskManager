@@ -18,27 +18,34 @@ namespace IntegrationTests
             ClearDatabase();
         }
 
-        public void ClearDatabase()
+        public void ClearDatabase(bool delete = false)
         {
             using var scope = _factory.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<TaskOrganizerDbContext>();
-
-            var dbSets = context.GetType().GetProperties()
+            if (delete)
+            {
+                context.Database.EnsureDeleted();
+            }
+            else
+            {
+                var dbSets = context.GetType().GetProperties()
                 .Where(p => p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
                 .ToList();
 
-            foreach (var dbSetProperty in dbSets)
-            {
-                dynamic dbSet = dbSetProperty.GetValue(context)!;
-                context.RemoveRange(dbSet);
-            }
+            
+                foreach (var dbSetProperty in dbSets)
+                {
+                    dynamic dbSet = dbSetProperty.GetValue(context)!;
+                    context.RemoveRange(dbSet);
+                }
 
-            context.SaveChanges();
+                context.SaveChanges();
+            }
         }
 
         public void Dispose()
         {
-            ClearDatabase();
+            ClearDatabase(delete:true);
         }
 
         public static async Task<bool> HasExpectedErrors(HttpResponseMessage response, List<(string Code, List<string> Descriptions)>? expected)
