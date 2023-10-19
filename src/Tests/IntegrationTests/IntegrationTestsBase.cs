@@ -1,4 +1,6 @@
-﻿using Infrastructure.Persistence;
+﻿
+using Infrastructure.Persistence;
+using Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -7,40 +9,50 @@ using System.Text.Json;
 
 namespace IntegrationTests
 {
-    public class ApiTests : IClassFixture<WebApplicationFactory<Api.Program>>, IDisposable
+    public class IntegrationTestBase : IClassFixture<WebApplicationFactory<Api.Program>>
     {
-        public readonly HttpClient Client;
-        private readonly WebApplicationFactory<Api.Program> _factory;
-        public ApiTests(WebApplicationFactory<Api.Program> factory)
+        protected readonly WebApplicationFactory<Api.Program> _factory;
+        public HttpClient Client { get; init; }
+        public IntegrationTestBase(WebApplicationFactory<Api.Program> factory)
         {
-            Client = factory.CreateClient();
-            _factory = factory;
-            ClearDatabase();
-        }
-
-        public void ClearDatabase()
-        {
-            using var scope = _factory.Services.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<TaskOrganizerDbContext>();
-
-                var dbSets = context.GetType().GetProperties()
-                .Where(p => p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
-                .ToList();
-
-            
-                foreach (var dbSetProperty in dbSets)
+            _factory = factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureServices(services =>
                 {
-                    dynamic dbSet = dbSetProperty.GetValue(context)!;
-                    context.RemoveRange(dbSet);
-                }
+                    // Remove the app's DbContext registration
+                    var descriptor = services.SingleOrDefault(
+                        d => d.ServiceType ==
+                            typeof(DbContextOptions<TaskOrganizerDbContext>));
 
-                context.SaveChanges();
-        }
+                    if (descriptor != null)
+                    {
+                        services.Remove(descriptor);
+                    }
 
-        public void Dispose()
-        {
-            ClearDatabase();
-            Client.Dispose();
+                    // Add SQLite DbContext using an in-memory database for testing
+                    services.AddSingleton<PublishDomainEventsInterceptor>(); // Assuming registered the interceptor
+
+                    services.AddSingleton(sp =>
+                    {
+                        var interceptor = sp.GetRequiredService<PublishDomainEventsInterceptor>();
+                        var uniqueDbName = Guid.NewGuid().ToString();
+                        return new TaskOrganizerDbContext(interceptor, true, uniqueDbName);
+                    });
+
+
+                    // Build the service provider
+                    var sp = services.BuildServiceProvider();
+
+                    // Create a scope to obtain a reference to the database
+                    using var scope = sp.CreateScope();
+                    var scopedServices = scope.ServiceProvider;
+                    var db = scopedServices.GetRequiredService<TaskOrganizerDbContext>();
+
+                    // Ensure the database is created
+                    db.Database.EnsureCreated();
+                });
+            });
+            Client = _factory.CreateClient();
         }
 
         public static async Task<bool> HasExpectedErrors(HttpResponseMessage response, List<(string Code, List<string> Descriptions)>? expected)
@@ -110,6 +122,5 @@ namespace IntegrationTests
             }
             return list;
         }
-
     }
 }

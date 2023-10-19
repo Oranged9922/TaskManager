@@ -8,37 +8,54 @@ namespace Infrastructure.Persistence
 {
     public class TaskOrganizerDbContext : DbContext
     {
-        public string DbPath { get; private set; }
-        public string StoragePath { get; private set; }
+        public string? DbPath { get; private set; }
+        public string? StoragePath { get; private set; }
+        private string? _dbName;
+        private readonly bool _useInMemory;
 
         public DbSet<User> Users { get; private set; }
         public DbSet<TOTask> Tasks { get; private set; }
 
         private readonly PublishDomainEventsInterceptor _publishDomainEventsInterceptor;
 
-        public TaskOrganizerDbContext(PublishDomainEventsInterceptor publishDomainEventsInterceptor)
+        public TaskOrganizerDbContext(
+            PublishDomainEventsInterceptor publishDomainEventsInterceptor, 
+            bool useInMemory = false, 
+            string? dbName = null)
         {
             _publishDomainEventsInterceptor = publishDomainEventsInterceptor;
+            _useInMemory = useInMemory;
 
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            // include name of the project in the path
-            // ensure that the path is created
-            var _path = Path.Combine(path, "TaskOrganizer");
-            Directory.CreateDirectory(_path);
+            if (!_useInMemory)
+            {
+                var folder = Environment.SpecialFolder.LocalApplicationData;
+                var path = Environment.GetFolderPath(folder);
 
-            var __path = Path.Combine(path, "TaskOrganizer", "Storage");
-            Directory.CreateDirectory(__path);
+                var _path = Path.Combine(path, "TaskOrganizer");
+                Directory.CreateDirectory(_path);
 
-            DbPath = Path.Combine(path, "TaskOrganizer", "TaskOrganizer.db");
-            StoragePath = Path.Combine(path, "TaskOrganizer", "Storage");
+                var __path = Path.Combine(path, "TaskOrganizer", "Storage");
+                Directory.CreateDirectory(__path);
+
+                DbPath = Path.Combine(path, "TaskOrganizer", "TaskOrganizer.db");
+                StoragePath = Path.Combine(path, "TaskOrganizer", "Storage");
+            }
+
+            _dbName = dbName ?? "DefaultDbName";
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
+            if (_useInMemory)
+            {
+                options.UseInMemoryDatabase(_dbName!);
+            }
+            else
+            {
+                options.UseSqlite($"Data Source={DbPath}");
+            }
             options.AddInterceptors(_publishDomainEventsInterceptor);
             options.UseLazyLoadingProxies();
-            options.UseSqlite($"Data Source={DbPath}");
             base.OnConfiguring(options);
         }
 

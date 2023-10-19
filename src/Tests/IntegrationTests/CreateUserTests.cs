@@ -6,7 +6,7 @@ using System.Net.Http.Json;
 
 namespace IntegrationTests
 {
-    public class CreateUserTests(WebApplicationFactory<Program> factory) : ApiTests(factory)
+    public class CreateUserTests(WebApplicationFactory<Api.Program> factory) : IntegrationTestBase(factory)
     {
         private static readonly string _endpoint = "/user/create";
 

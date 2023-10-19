@@ -12,11 +12,11 @@ using Contracts.User.LoginUser;
 
 namespace IntegrationTests
 {
-    public class LoginUserTests(WebApplicationFactory<Program> factory) : ApiTests(factory)
+    public class LoginUserTests(WebApplicationFactory<Api.Program> factory) : IntegrationTestBase(factory)
     {
         private static readonly string _endpoint = "/user/login";
 
-        public async Task RegisterDummyUser()
+        private async Task RegisterDummyUser()
         {
             CreateUserRequest request = new(
                Username: "test",
@@ -29,7 +29,7 @@ namespace IntegrationTests
         [Fact]
         public async Task User_LoginUser_DummyUser()
         {
-            RegisterDummyUser().GetAwaiter().GetResult();
+            await RegisterDummyUser();
             LoginUserRequest request = new(
                 Username: "test",
                 Password: "P@ssw0rd!");
