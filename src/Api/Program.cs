@@ -34,10 +34,7 @@ public class Program
             });
             using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<TaskOrganizerDbContext>();
-            if (context.Database.EnsureCreated())
-            {
-                context.Database.Migrate();
-            }
+            try { context.Database.Migrate(); } finally { };
             app.Run();
         }
     }
