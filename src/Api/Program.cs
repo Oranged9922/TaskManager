@@ -34,6 +34,7 @@ public class Program
             });
             using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<TaskOrganizerDbContext>();
+            context.Database.EnsureDeleted();
             context.Database.Migrate();
 
             app.Run();
