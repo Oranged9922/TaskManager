@@ -1,12 +1,13 @@
 ﻿using Api;
 using Contracts.User.CreateUser;
+using IntegrationTests.Common;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace IntegrationTests
+namespace IntegrationTests.UserTests
 {
-    public class CreateUserTests(WebApplicationFactory<Api.Program> factory) : IntegrationTestBase(factory)
+    public class CreateUserTests(WebApplicationFactory<Program> factory) : IntegrationTestBase(factory)
     {
         private static readonly string _endpoint = "/user/create";
 

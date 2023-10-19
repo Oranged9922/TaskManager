@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Api;
 using Contracts.User.LoginUser;
+using IntegrationTests.Common;
 
-namespace IntegrationTests
+namespace IntegrationTests.UserTests
 {
-    public class LoginUserTests(WebApplicationFactory<Api.Program> factory) : IntegrationTestBase(factory)
+    public class LoginUserTests(WebApplicationFactory<Program> factory) : IntegrationTestBase(factory)
     {
         private static readonly string _endpoint = "/user/login";
 
@@ -36,7 +37,7 @@ namespace IntegrationTests
 
             var response = await Client.PostAsJsonAsync(_endpoint, request);
             Assert.NotNull(response);
-            Assert.Equal(HttpStatusCode.OK ,response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             ExpectedErrorsList? expectedErrors = null;
             Assert.True(await HasExpectedErrors(response, expectedErrors));

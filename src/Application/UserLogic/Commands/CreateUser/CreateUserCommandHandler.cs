@@ -31,7 +31,7 @@ namespace Application.UserLogic.Commands.CreateUser
                 return Domain.Common.Errors.Repository.UserRepository.UserWithEmailAlreadyExists;
             }
 
-            var passwordHash = passwordHasher.HashPassword(null, request.Password);
+            var passwordHash = passwordHasher.HashPassword(null!, request.Password);
 
             var newUser = User.Create(request.Username, request.Email, passwordHash, UserRole.User, [], []);
 

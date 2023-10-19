@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
-namespace IntegrationTests
+namespace IntegrationTests.Common
 {
     public class IntegrationTestBase : IClassFixture<WebApplicationFactory<Api.Program>>
     {
