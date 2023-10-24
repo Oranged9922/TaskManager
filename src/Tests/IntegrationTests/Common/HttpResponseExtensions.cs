@@ -1,8 +1,6 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using System.IdentityModel.Tokens.Jwt;
+﻿using Application.UserLogic.Commands.CreateUser;
 using Newtonsoft.Json;
-using Application.UserLogic.Commands.CreateUser;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace IntegrationTests.Common
 {

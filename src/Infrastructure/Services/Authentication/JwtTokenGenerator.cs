@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Enums.User;
 using Domain.UserAggregate;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

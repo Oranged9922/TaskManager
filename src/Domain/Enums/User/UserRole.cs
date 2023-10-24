@@ -1,4 +1,4 @@
-﻿namespace Domain.UserAggregate
+﻿namespace Domain.Enums.User
 {
     public enum UserRole
     {

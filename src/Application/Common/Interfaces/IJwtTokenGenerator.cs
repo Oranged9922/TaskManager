@@ -1,4 +1,5 @@
-﻿using Domain.UserAggregate;
+﻿using Domain.Enums.User;
+using Domain.UserAggregate;
 
 namespace Application.Common.Interfaces
 {

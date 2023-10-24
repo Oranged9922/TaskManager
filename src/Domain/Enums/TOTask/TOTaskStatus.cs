@@ -1,4 +1,4 @@
-﻿namespace Domain.TOTaskAggregate
+﻿namespace Domain.Enums.TOTask
 {
     public enum TOTaskStatus
     {

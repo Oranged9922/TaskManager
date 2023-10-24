@@ -1,4 +1,5 @@
 ﻿using Domain.Common.Models;
+using Domain.Enums.User;
 using Domain.TOTaskAggregate;
 using Domain.UserAggregate.Events;
 

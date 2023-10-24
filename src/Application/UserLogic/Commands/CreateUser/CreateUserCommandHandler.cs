@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Enums.User;
 using Domain.UserAggregate;
 using ErrorOr;
 using MediatR;
@@ -14,7 +15,7 @@ namespace Application.UserLogic.Commands.CreateUser
         ) :
         IRequestHandler<CreateUserCommand, ErrorOr<CreateUserCommandResponse>>
     {
-        
+
         public async Task<ErrorOr<CreateUserCommandResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;

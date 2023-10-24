@@ -1,4 +1,4 @@
 ﻿namespace Contracts.User.LoginUser
 {
-   public record LoginUserResponse(string JwtToken);
+    public record LoginUserResponse(string JwtToken);
 }
