@@ -2,5 +2,5 @@
 
 namespace Contracts.User.CreateUser
 {
-    public record CreateUserResponse(UserId UserId, string JwtToken);
+    public record CreateUserResponse(string UserId, string JwtToken);
 }

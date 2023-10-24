@@ -9,8 +9,6 @@ namespace IntegrationTests.UserTests
 {
     public class CreateUserTests(WebApplicationFactory<Program> factory) : IntegrationTestBase(factory)
     {
-        private static readonly string _endpoint = "/user/create";
-
         [Fact(Skip = "Template test")]
         public async Task TemplateTest()
         {
@@ -19,11 +17,11 @@ namespace IntegrationTests.UserTests
                Password: "P@ssw0rd!",
                Email: "test@test.eu");
 
-            var response = await Client.PostAsJsonAsync(_endpoint, request);
+            var response = await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-            ExpectedErrorsList? expectedErrors = null;
+            ExpectedErrorsList? expectedErrors = [];
             Assert.True(await HasExpectedErrors(response, expectedErrors));
         }
 
@@ -35,11 +33,11 @@ namespace IntegrationTests.UserTests
                 Password: "P@ssw0rd!",
                 Email: "test@test.eu");
 
-            var response = await Client.PostAsJsonAsync(_endpoint, request);
+            var response = await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-            ExpectedErrorsList? expectedErrors = null;
+            ExpectedErrorsList? expectedErrors = [];
             Assert.True(await HasExpectedErrors(response, expectedErrors));
         }
 
@@ -51,7 +49,7 @@ namespace IntegrationTests.UserTests
                 Password: "P@ssw0rd!",
                 Email: "test");
 
-            var response = await Client.PostAsJsonAsync(_endpoint, request);
+            var response = await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
             ExpectedErrorsList expectedErrors = [
@@ -70,7 +68,7 @@ namespace IntegrationTests.UserTests
                 Password: "password",
                 Email: "test@test.eu");
 
-            var response = await Client.PostAsJsonAsync(_endpoint, request);
+            var response = await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
             Assert.NotNull(response);
             ExpectedErrorsList expectedErrors = [
                 ("Password",
@@ -93,7 +91,7 @@ namespace IntegrationTests.UserTests
                 Password: "P@ssw0rd!",
                 Email: "test@test.eu");
 
-            var response = await Client.PostAsJsonAsync(_endpoint, request);
+            var response = await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
             Assert.NotNull(response);
             ExpectedErrorsList expectedErrors = [
                 ("Username",
@@ -115,11 +113,11 @@ namespace IntegrationTests.UserTests
                 Password: "P@ssw0rd!",
                 Email: "test@test.eu");
 
-            var response = await Client.PostAsJsonAsync(_endpoint, request);
+            var response = await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-            response = await Client.PostAsJsonAsync(_endpoint, request);
+            response = await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
             Assert.NotNull(response);
 
             var expectedTitle = "User with given username already exists in the database.";
@@ -137,7 +135,7 @@ namespace IntegrationTests.UserTests
                 Password: "P@ssw0rd!",
                 Email: "test@test.eu");
 
-            var response = await Client.PostAsJsonAsync(_endpoint, request);
+            var response = await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
@@ -146,7 +144,7 @@ namespace IntegrationTests.UserTests
                 Password: "P@ssw0rd!",
                 Email: "test@test.eu");
 
-            response = await Client.PostAsJsonAsync(_endpoint, request);
+            response = await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
             Assert.NotNull(response);
             var expectedTitle = "User with given email already exists in the database.";
 

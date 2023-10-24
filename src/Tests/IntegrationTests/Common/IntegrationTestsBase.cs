@@ -1,10 +1,13 @@
 ﻿
+using Contracts.User.CreateUser;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace IntegrationTests.Common
@@ -57,7 +60,6 @@ namespace IntegrationTests.Common
 
         public static async Task<bool> HasExpectedErrors(HttpResponseMessage response, List<(string Code, List<string> Descriptions)>? expected)
         {
-            if (expected is null || expected.Count == 0) { return true; }
 
             string content = await response.Content.ReadAsStringAsync();
             var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(content)!;
@@ -66,6 +68,8 @@ namespace IntegrationTests.Common
                 var _errors = CreateListFromObject(errors);
                 return HasExpectedErrors(_errors, expected);
             }
+            if(expected.IsNullOrEmpty())
+            return true;
 
             return false;
         }
@@ -121,6 +125,16 @@ namespace IntegrationTests.Common
                 }
             }
             return list;
+        }
+
+        public async Task CreateNewUser(string Name = "test", string Password = "P@ssw0rd!", string Email = "test@test.test")
+        {
+            CreateUserRequest request = new(
+                Username: Name,
+                Password: Password,
+                Email: Email);
+
+            await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
         }
     }
 }
