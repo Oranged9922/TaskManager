@@ -1,4 +1,5 @@
 ﻿using Domain.Common.Models;
+using Domain.Enums.TOTask;
 using Domain.TOTaskAggregate.Events;
 using Domain.UserAggregate;
 
@@ -11,15 +12,18 @@ namespace Domain.TOTaskAggregate
         public TOTaskStatus Status { get; private set; } = TOTaskStatus.Open;
         public TOTaskPriority Priority { get; private set; } = TOTaskPriority.None;
         public DateTimeOffset? DueDate { get; private set; }
+        public virtual TOTaskLabel? Label { get; private set; } = null;
         public virtual User Creator { get; private set; } = default!;
         public virtual User? AssignedTo { get; private set; }
         public virtual List<TOTask> BlockedBy { get; private set; } = [];
         public virtual List<TOTask> Blocks { get; private set; } = [];
+        
         private TOTask(
             TOTaskId taskId,
             string title,
             string description,
             TOTaskStatus status,
+            TOTaskLabel? label,
             TOTaskPriority priority,
             DateTimeOffset? dueDate,
             User creator,
@@ -31,6 +35,7 @@ namespace Domain.TOTaskAggregate
             Title = title;
             Description = description;
             Status = status;
+            Label = label;
             Priority = priority;
             DueDate = dueDate;
             Creator = creator;
@@ -47,6 +52,7 @@ namespace Domain.TOTaskAggregate
             string title,
             string description,
             TOTaskStatus status,
+            TOTaskLabel? label,
             TOTaskPriority priority,
             DateTimeOffset? dueDate,
             User creator,
@@ -59,6 +65,7 @@ namespace Domain.TOTaskAggregate
                 title,
                 description,
                 status,
+                label,
                 priority,
                 dueDate,
                 creator,

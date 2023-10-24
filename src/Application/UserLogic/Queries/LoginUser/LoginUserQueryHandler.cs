@@ -10,7 +10,7 @@ namespace Application.UserLogic.Queries.LoginUser
     public class LoginUserQueryHandler(
             IUserRepository userRepository,
             IPasswordHasher<User> passwordHasher,
-            IJwtTokenGenerator jwtTokenGenerator) 
+            IJwtTokenGenerator jwtTokenGenerator)
         : IRequestHandler<LoginUserQuery, ErrorOr<LoginUserQueryResponse>>
     {
         public async Task<ErrorOr<LoginUserQueryResponse>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
@@ -23,7 +23,7 @@ namespace Application.UserLogic.Queries.LoginUser
                 return Domain.Common.Errors.Validation.InvalidCredentials;
             }
 
-            if(passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed)
+            if (passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed)
             {
                 return Domain.Common.Errors.Validation.InvalidCredentials;
             }

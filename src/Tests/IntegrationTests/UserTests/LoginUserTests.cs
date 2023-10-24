@@ -1,15 +1,10 @@
-﻿using Contracts.User.CreateUser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Api;
+﻿using Api;
+using Contracts.User.CreateUser;
 using Contracts.User.LoginUser;
 using IntegrationTests.Common;
+using Microsoft.AspNetCore.Mvc.Testing;
+using System.Net;
+using System.Net.Http.Json;
 
 namespace IntegrationTests.UserTests
 {
