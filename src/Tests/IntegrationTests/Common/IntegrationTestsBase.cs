@@ -68,8 +68,8 @@ namespace IntegrationTests.Common
                 var _errors = CreateListFromObject(errors);
                 return HasExpectedErrors(_errors, expected);
             }
-            if(expected.IsNullOrEmpty())
-            return true;
+            if (expected.IsNullOrEmpty())
+                return true;
 
             return false;
         }

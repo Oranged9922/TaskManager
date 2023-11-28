@@ -59,7 +59,7 @@ namespace Infrastructure.Persistence
             {
                 options.UseSqlite($"Data Source={DbPath}");
             }
-            if(_publishDomainEventsInterceptor != null)
+            if (_publishDomainEventsInterceptor != null)
                 options.AddInterceptors(_publishDomainEventsInterceptor);
             options.UseLazyLoadingProxies();
             base.OnConfiguring(options);
@@ -84,7 +84,7 @@ namespace Infrastructure.Persistence
                 .Property(e => e.Id)
                 .HasConversion(
                 v => v.Value,
-                v => new TOCycleId(v));   
+                v => new TOCycleId(v));
 
             modelBuilder.Entity<TOProject>()
                 .Property(e => e.Id)

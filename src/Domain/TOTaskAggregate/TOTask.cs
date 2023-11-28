@@ -17,7 +17,7 @@ namespace Domain.TOTaskAggregate
         public virtual User? AssignedTo { get; private set; }
         public virtual List<TOTask> BlockedBy { get; private set; } = [];
         public virtual List<TOTask> Blocks { get; private set; } = [];
-        
+
         private TOTask(
             TOTaskId taskId,
             string title,

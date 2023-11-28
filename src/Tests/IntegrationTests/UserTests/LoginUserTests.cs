@@ -38,7 +38,7 @@ namespace IntegrationTests.UserTests
             var response = await Client.PostAsJsonAsync(Endpoint.UserController.LoginUser, request);
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-            ExpectedErrorsList? expectedErrors = [("703",["Invalid credentials."])];
+            ExpectedErrorsList? expectedErrors = [("703", ["Invalid credentials."])];
             Assert.True(await HasExpectedErrors(response, expectedErrors));
         }
     }
