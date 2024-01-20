@@ -41,5 +41,20 @@ namespace IntegrationTests.UserTests
             ExpectedErrorsList? expectedErrors = [("703", ["Invalid credentials."])];
             Assert.Equivalent(expectedErrors, await ActualErrors(response));
         }
+
+        [Fact]
+        public async Task User_LoginUser_InvalidPassword()
+        {
+            await CreateNewUser(Name: "test", Password: "P@ssw0rd!", Email: "test@test.test");
+            LoginUserRequest request = new(
+                Username: "test",
+                Password: "Passw0rd!");
+
+            var response = await Client.PostAsJsonAsync(Endpoint.UserController.LoginUser, request);
+            Assert.NotNull(response);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            ExpectedErrorsList? expectedErrors = [("703", ["Invalid credentials."])];
+            Assert.Equivalent(expectedErrors, await ActualErrors(response));
+        }
     }
 }
