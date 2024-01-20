@@ -38,7 +38,7 @@ namespace IntegrationTests.TOTaskTests
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
             ExpectedErrorsList? expectedErrors = [];
-            Assert.True(await HasExpectedErrors(response, expectedErrors));
+            Assert.Equivalent(expectedErrors, await ActualErrors(response));
 
             var result = await response.Content.ReadFromJsonAsync<CreateTOTaskCommandResponse>();
             Assert.NotNull(result?.Id);
@@ -76,11 +76,65 @@ namespace IntegrationTests.TOTaskTests
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
             ExpectedErrorsList? expectedErrors = [];
-            Assert.True(await HasExpectedErrors(response, expectedErrors));
+            Assert.Equivalent(expectedErrors, await ActualErrors(response));
 
             var result = await response.Content.ReadFromJsonAsync<CreateTOTaskCommandResponse>();
             Assert.NotNull(result?.Id);
             Assert.Equal(request.Name, result?.Name);
+        }
+
+
+        [Fact]
+        public async Task TOTask_Create_NonExistentProject()
+        {
+            // Arrange
+            var jwtToken = await CreateAndLoginTestUser();
+            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+            
+            CreateTOTaskRequest request = new(
+                Name: "test",
+                Description: "test");
+
+            var response = await Client.PostAsJsonAsync(Endpoint.TOTaskController.CreateTask(Guid.NewGuid()), request);
+            Assert.NotNull(response);
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+
+            var expectedTitle = "Entity with given Id is not in the database.";
+            Assert.Equal(expectedTitle, await ActualTitle(response));
+        }
+
+        [Fact]
+        public async Task TOTask_Create_UserNotMemberNorCreatorOfProject()
+        {
+            // Arrange
+            var jwtToken = await CreateAndLoginTestUser();
+            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+
+            // Create project
+            CreateTOProjectRequest requestProject = new(
+                Name: "test",
+                Description: "test");
+
+            var responseProject = await Client.PostAsJsonAsync(Endpoint.TOProjectController.CreateProject, requestProject);
+            var resultProject = await responseProject.Content.ReadFromJsonAsync<CreateTOProjectCommandResponse>();
+            Assert.NotNull(resultProject?.Id);
+
+            // Create user
+            var newUserToken = await CreateAndLoginTestUser(Name:"test2", Email:"test2@test.test");
+            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", newUserToken);
+
+            // Create task
+            CreateTOTaskRequest request = new(
+                Name: "test",
+                Description: "test");
+
+            var response = await Client.PostAsJsonAsync(Endpoint.TOTaskController.CreateTask(resultProject.Id), request);
+            Assert.NotNull(response);
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+
+            var expectedTitle = "User is not a member nor creator of the project.";
+            Assert.Equal(expectedTitle, await ActualTitle(response));
+
         }
     }
 }

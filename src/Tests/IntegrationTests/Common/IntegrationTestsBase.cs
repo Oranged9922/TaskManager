@@ -59,7 +59,7 @@ namespace IntegrationTests.Common
             Client = _factory.CreateClient();
         }
 
-        public static async Task<bool> HasExpectedErrors(HttpResponseMessage response, List<(string Code, List<string> Descriptions)>? expected)
+        public static async Task<List<(string, List<string>)>> ActualErrors(HttpResponseMessage response)
         {
 
             string content = await response.Content.ReadAsStringAsync();
@@ -67,23 +67,20 @@ namespace IntegrationTests.Common
             if (problemDetails.Extensions.TryGetValue("errors", out object? errors))
             {
                 var _errors = CreateListFromObject(errors);
-                return HasExpectedErrors(_errors, expected);
+                return _errors;
             }
-            if (expected.IsNullOrEmpty())
-                return true;
-
-            return false;
+            return [];
         }
 
-        public static async Task<bool> HasExpectedTitle(HttpResponseMessage response, string? title)
+        public static async Task<string?> ActualTitle(HttpResponseMessage response)
         {
             string content = await response.Content.ReadAsStringAsync();
             var problemDetails = JsonSerializer.Deserialize<ProblemDetails>(content)!;
             if (problemDetails.Extensions.TryGetValue("title", out object? _title))
             {
-                return _title?.ToString() == title;
+                return _title?.ToString();
             }
-            return title is null;
+            return null;
         }
 
         private static bool HasExpectedErrors(List<(string code, List<string> descriptions)>? response, List<(string code, List<string> descriptions)>? errors)

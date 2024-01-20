@@ -57,7 +57,7 @@ namespace Domain.Common.Errors
                 public static readonly Error UserNotMemberOfProject = Error.Failure
                 (
                     code: "821",
-                    description: "User is not a member of the project."
+                    description: "User is not a member nor creator of the project."
                 );
             }
 
