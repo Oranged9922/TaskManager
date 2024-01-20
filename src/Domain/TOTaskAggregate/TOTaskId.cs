@@ -2,7 +2,7 @@
 
 namespace Domain.TOTaskAggregate
 {
-    public class TOProjectId(Guid value) : ValueObject
+    public class TOTaskId(Guid value) : ValueObject
     {
         /// <summary>
         /// The value of the task id.
@@ -18,9 +18,9 @@ namespace Domain.TOTaskAggregate
         /// Creates a unique task id.
         /// </summary>
         /// <returns> The task id.</returns>
-        public static TOProjectId CreateUnique()
+        public static TOTaskId CreateUnique()
         {
-            return new TOProjectId(Guid.NewGuid());
+            return new TOTaskId(Guid.NewGuid());
         }
 
         /// <summary>
@@ -28,9 +28,9 @@ namespace Domain.TOTaskAggregate
         /// </summary>
         /// <param name="value"> The guid.</param>
         /// <returns> The task id.</returns>
-        public static TOProjectId Create(Guid value)
+        public static TOTaskId Create(Guid value)
         {
-            return new TOProjectId(value);
+            return new TOTaskId(value);
         }
     }
 }

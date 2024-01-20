@@ -31,7 +31,7 @@ namespace IntegrationTests.TOProjectTests
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
             ExpectedErrorsList? expectedErrors = [];
-            Assert.True(await HasExpectedErrors(response, expectedErrors));
+            Assert.Equivalent(expectedErrors, await ActualErrors(response));
 
             var result = await response.Content.ReadFromJsonAsync<CreateTOProjectCommandResponse>();
             Assert.NotNull(result?.Id);
@@ -55,7 +55,7 @@ namespace IntegrationTests.TOProjectTests
 
             var expectedTitle = "Project with given name already exists in the database.";
 
-            Assert.True(await HasExpectedTitle(response, expectedTitle));
+            Assert.Equal(expectedTitle, await ActualTitle(response));
         }
     }
 }

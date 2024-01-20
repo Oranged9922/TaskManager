@@ -1,6 +1,4 @@
 ﻿namespace Contracts.TOTask.CreateTOTask
 {
-    public class CreateTOTaskRequest
-    {
-    }
+    public record CreateTOTaskRequest(string Name, string Description, string ProjectId = "", string UserId = "");
 }

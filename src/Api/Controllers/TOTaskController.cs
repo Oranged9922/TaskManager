@@ -11,8 +11,10 @@ namespace Api.Controllers
     public class TOTaskController(ISender mediatR, IMapper mapper) : ApiController
     {
         [HttpPost("create")]
-        public async Task<IActionResult> CreateTask(CreateTOTaskRequest request)
+        public async Task<IActionResult> CreateTask(CreateTOTaskRequest request, string projectId)
         {
+            request = request with { ProjectId = projectId };
+
             var command = mapper.Map<CreateTOTaskCommand>(request);
             var result = await mediatR.Send(command);
             return result.Match(

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.UserLogic.Events
 {
-    internal class UserCreatedEventHandler : INotificationHandler<UserCreated>
+    public class UserCreatedEventHandler : INotificationHandler<UserCreated>
     {
         public Task Handle(UserCreated notification, CancellationToken cancellationToken)
         {

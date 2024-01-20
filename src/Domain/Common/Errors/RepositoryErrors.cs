@@ -53,6 +53,12 @@ namespace Domain.Common.Errors
                     code: "820",
                     description: "Project with given name already exists in the database."
                 );
+
+                public static readonly Error UserNotMemberOfProject = Error.Failure
+                (
+                    code: "821",
+                    description: "User is not a member nor creator of the project."
+                );
             }
 
         }

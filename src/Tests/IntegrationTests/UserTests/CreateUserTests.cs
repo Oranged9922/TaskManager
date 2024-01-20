@@ -22,7 +22,7 @@ namespace IntegrationTests.UserTests
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
             ExpectedErrorsList? expectedErrors = [];
-            Assert.True(await HasExpectedErrors(response, expectedErrors));
+            Assert.Equivalent(expectedErrors, await ActualErrors(response));
         }
 
         [Fact]
@@ -38,7 +38,7 @@ namespace IntegrationTests.UserTests
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
             ExpectedErrorsList? expectedErrors = [];
-            Assert.True(await HasExpectedErrors(response, expectedErrors));
+            Assert.Equivalent(expectedErrors, await ActualErrors(response));
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace IntegrationTests.UserTests
                 ("Email", ["Your e-mail address is not valid."])
                 ];
 
-            Assert.True(await HasExpectedErrors(response, expectedErrors));
+            Assert.Equivalent(expectedErrors, await ActualErrors(response));
 
         }
 
@@ -79,7 +79,7 @@ namespace IntegrationTests.UserTests
                     ])
                 ];
 
-            Assert.True(await HasExpectedErrors(response, expectedErrors));
+            Assert.Equivalent(expectedErrors, await ActualErrors(response));
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
@@ -100,7 +100,7 @@ namespace IntegrationTests.UserTests
                     ])
                 ];
 
-            Assert.True(await HasExpectedErrors(response, expectedErrors));
+            Assert.Equivalent(expectedErrors, await ActualErrors(response));
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
 
         }
@@ -122,7 +122,7 @@ namespace IntegrationTests.UserTests
 
             var expectedTitle = "User with given username already exists in the database.";
 
-            Assert.True(await HasExpectedTitle(response, expectedTitle));
+            Assert.Equal(expectedTitle, await ActualTitle(response));
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
 
         }
@@ -148,7 +148,7 @@ namespace IntegrationTests.UserTests
             Assert.NotNull(response);
             var expectedTitle = "User with given email already exists in the database.";
 
-            Assert.True(await HasExpectedTitle(response, expectedTitle));
+            Assert.Equal(expectedTitle, await ActualTitle(response));
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
 
 

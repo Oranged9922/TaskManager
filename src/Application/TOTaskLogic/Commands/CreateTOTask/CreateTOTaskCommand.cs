@@ -7,6 +7,5 @@ namespace Application.TOTaskLogic.Commands.CreateTOTask
     public record CreateTOTaskCommand(
         string Name,
         string Description,
-        string ProjectId,
-        string UserId) : IRequest<ErrorOr<CreateTOTaskCommandResponse>>;
+        string ProjectId) : IRequest<ErrorOr<CreateTOTaskCommandResponse>>;
 }

@@ -9,6 +9,7 @@ namespace Domain.TOTaskAggregate
         // required by EF Core
         protected TOTaskLabel() : base(TOTaskLabelId.CreateUnique())
         {
+            Name = string.Empty;
         }
 
         private TOTaskLabel(

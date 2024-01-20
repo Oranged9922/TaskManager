@@ -25,7 +25,7 @@ namespace IntegrationTests.UserTests
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             ExpectedErrorsList? expectedErrors = [];
-            Assert.True(await HasExpectedErrors(response, expectedErrors));
+            Assert.Equivalent(expectedErrors, await ActualErrors(response));
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace IntegrationTests.UserTests
             Assert.NotNull(response);
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
             ExpectedErrorsList? expectedErrors = [("703", ["Invalid credentials."])];
-            Assert.True(await HasExpectedErrors(response, expectedErrors));
+            Assert.Equivalent(expectedErrors, await ActualErrors(response));
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Domain.TOProjectAggregate
         public DateTimeOffset? EndDate { get; private set; }
         public virtual User Creator { get; private set; } = null!;
         public virtual List<User> Members { get; private set; } = [];
-        public virtual List<TOTaskAggregate.TOProject> Tasks { get; private set; } = [];
+        public virtual List<TOTask> Tasks { get; private set; } = [];
         public virtual List<TOTaskLabel> Labels { get; private set; } = [];
         public virtual List<TOCycle> Cycles { get; private set; } = [];
 
@@ -32,7 +32,7 @@ namespace Domain.TOProjectAggregate
             List<User> members,
             DateTimeOffset startDate,
             DateTimeOffset? endDate,
-            List<TOTaskAggregate.TOProject> tasks,
+            List<TOTaskAggregate.TOTask> tasks,
             List<TOTaskLabel> labels,
             List<TOCycle> cycles) : base(projectId)
         {
@@ -54,7 +54,7 @@ namespace Domain.TOProjectAggregate
             List<User> members,
             DateTimeOffset startDate,
             DateTimeOffset? endDate,
-            List<TOTaskAggregate.TOProject> tasks,
+            List<TOTaskAggregate.TOTask> tasks,
             List<TOTaskLabel> labels,
             List<TOCycle> cycles)
         {
@@ -70,7 +70,7 @@ namespace Domain.TOProjectAggregate
                 labels,
                 cycles);
 
-            project.AddDomainEvent(new TOProjectCreated(project));
+            project.AddDomainEvent(new TOProjectCreated(project, creator));
 
             return project;
         }
