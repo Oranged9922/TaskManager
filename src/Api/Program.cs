@@ -13,7 +13,9 @@ public class Program
         builder.Services
             .AddPresentation()
             .AddApplication()
-            .AddInfrastructure(builder.Configuration);
+            .AddInfrastructure(builder.Configuration)
+            .AddHttpContextAccessor();
+            
         builder.Services.AddCors();
         builder.Services.AddControllers();
 

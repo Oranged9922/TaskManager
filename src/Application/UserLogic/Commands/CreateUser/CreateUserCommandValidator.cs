@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Application.UserLogic.Commands.CreateUser
+﻿namespace Application.UserLogic.Commands.CreateUser
 {
     public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
     {

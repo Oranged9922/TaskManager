@@ -11,9 +11,9 @@ namespace Domain.TOCycleAggregate
         public TOCycleType Type { get; private set; }
 
         public TOCycle(
-            TOCycleId id, 
-            int number, 
-            TOCycleStatus status, 
+            TOCycleId id,
+            int number,
+            TOCycleStatus status,
             TOCycleType type) : base(id)
         {
             Number = number;
@@ -22,11 +22,11 @@ namespace Domain.TOCycleAggregate
         }
 
         public static TOCycle Create(
-            int number, 
-            TOCycleStatus status, 
+            int number,
+            TOCycleStatus status,
             TOCycleType type)
         {
-            var cycle =  new TOCycle(TOCycleId.CreateUnique(),
+            var cycle = new TOCycle(TOCycleId.CreateUnique(),
                 number, status, type);
 
             cycle.AddDomainEvent(new TOCycleCreated(cycle));

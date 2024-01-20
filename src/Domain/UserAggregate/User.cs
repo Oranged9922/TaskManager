@@ -11,16 +11,16 @@ namespace Domain.UserAggregate
         public string Email { get; private set; } = string.Empty;
         public string PasswordHash { get; private set; } = string.Empty;
         public UserRole Role { get; private set; } = UserRole.Guest;
-        public virtual List<TOTask> AssignedTasks { get; private set; } = [];
-        public virtual List<TOTask> CreatedTasks { get; private set; } = [];
+        public virtual List<TOProject> AssignedTasks { get; private set; } = [];
+        public virtual List<TOProject> CreatedTasks { get; private set; } = [];
 
         private User(UserId id,
             string username,
             string email,
             string passwordHash,
             UserRole role,
-            List<TOTask> assignedTasks,
-            List<TOTask> createdTasks) : base(id)
+            List<TOProject> assignedTasks,
+            List<TOProject> createdTasks) : base(id)
         {
             Username = username;
             Email = email;
@@ -38,7 +38,7 @@ namespace Domain.UserAggregate
         }
 
         public static User Create(
-            string username, string email, string passwordHash, UserRole role, List<TOTask> assignedTasks, List<TOTask> createdTasks)
+            string username, string email, string passwordHash, UserRole role, List<TOProject> assignedTasks, List<TOProject> createdTasks)
         {
             User user = new(
                 UserId.CreateUnique(),

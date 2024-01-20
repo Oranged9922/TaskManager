@@ -5,6 +5,7 @@ using Domain.TOTaskAggregate;
 using Domain.UserAggregate;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Infrastructure.Persistence
 {
@@ -16,10 +17,10 @@ namespace Infrastructure.Persistence
         private readonly bool _useInMemory;
 
         public DbSet<User> Users { get; private set; }
-        public DbSet<TOTask> Tasks { get; private set; }
+        public DbSet<Domain.TOTaskAggregate.TOProject> Tasks { get; private set; }
         public DbSet<TOTaskLabel> Labels { get; private set; }
         public DbSet<TOCycle> Cycles { get; private set; }
-        public DbSet<TOProject> Projects { get; private set; }
+        public DbSet<Domain.TOProjectAggregate.TOProject> Projects { get; private set; }
 
         private readonly PublishDomainEventsInterceptor? _publishDomainEventsInterceptor;
 
@@ -59,7 +60,7 @@ namespace Infrastructure.Persistence
             {
                 options.UseSqlite($"Data Source={DbPath}");
             }
-            if(_publishDomainEventsInterceptor != null)
+            if (_publishDomainEventsInterceptor != null)
                 options.AddInterceptors(_publishDomainEventsInterceptor);
             options.UseLazyLoadingProxies();
             base.OnConfiguring(options);
@@ -68,11 +69,11 @@ namespace Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<TOTask>()
+            modelBuilder.Entity<Domain.TOTaskAggregate.TOProject>()
                 .Property(e => e.Id)
                 .HasConversion(
                 v => v.Value,
-                v => new TOTaskId(v));
+                v => new Domain.TOTaskAggregate.TOProjectId(v));
 
             modelBuilder.Entity<User>()
                 .Property(e => e.Id)
@@ -84,13 +85,13 @@ namespace Infrastructure.Persistence
                 .Property(e => e.Id)
                 .HasConversion(
                 v => v.Value,
-                v => new TOCycleId(v));   
+                v => new TOCycleId(v));
 
-            modelBuilder.Entity<TOProject>()
+            modelBuilder.Entity<Domain.TOProjectAggregate.TOProject>()
                 .Property(e => e.Id)
                 .HasConversion(
                 v => v.Value,
-                v => new TOProjectId(v));
+                v => new Domain.TOProjectAggregate.TOProjectId(v));
 
             modelBuilder.Entity<TOTaskLabel>()
                 .Property(e => e.Id)

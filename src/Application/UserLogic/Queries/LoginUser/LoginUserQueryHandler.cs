@@ -20,12 +20,12 @@ namespace Application.UserLogic.Queries.LoginUser
 
             if (user is null)
             {
-                return Domain.Common.Errors.Validation.InvalidCredentials;
+                return Errors.Validation.InvalidCredentials;
             }
 
             if (passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed)
             {
-                return Domain.Common.Errors.Validation.InvalidCredentials;
+                return Errors.Validation.InvalidCredentials;
             }
 
             string token = jwtTokenGenerator.GenerateToken(user, user.Role);

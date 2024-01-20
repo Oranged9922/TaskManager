@@ -28,10 +28,10 @@ namespace Infrastructure.Services.Authentication
 
             Claim[] claims =
             [
-                new Claim(JwtRegisteredClaimNames.Sub, user!.Id!.ToString()!),
+                new Claim(JwtRegisteredClaimNames.Sub, user!.Id!.Value.ToString()!),
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, role.ToString())
+                new Claim(JwtRegisteredClaimNames.Typ, role.ToString())
             ];
 
             JwtSecurityToken secToken = new(

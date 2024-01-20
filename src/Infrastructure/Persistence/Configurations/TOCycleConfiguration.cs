@@ -9,11 +9,11 @@ namespace Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<TOCycle> builder)
         {
             builder.HasKey(t => t.Id);
-         
+
             builder.Property(t => t.Number).IsRequired();
-            
+
             builder.Property(t => t.Status).HasConversion<string>().IsRequired();
-            
+
             builder.Property(t => t.Type).HasConversion<string>().IsRequired();
 
         }

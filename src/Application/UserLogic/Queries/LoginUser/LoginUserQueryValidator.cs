@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Application.UserLogic.Queries.LoginUser
+﻿namespace Application.UserLogic.Queries.LoginUser
 {
     public class LoginUserQueryValidator : AbstractValidator<LoginUserQuery>
     {

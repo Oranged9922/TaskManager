@@ -29,7 +29,7 @@ namespace Infrastructure.Persistence.Configurations
             builder.HasMany(p => p.Tasks).WithOne().HasForeignKey("TOProjectId");
             builder.HasMany(p => p.Labels).WithOne().HasForeignKey("TOProjectId");
             builder.HasMany(p => p.Cycles).WithOne().HasForeignKey("TOProjectId");
-           
+
         }
     }
 }

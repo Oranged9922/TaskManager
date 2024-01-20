@@ -5,6 +5,7 @@ using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Persistence.Repositories;
 using Infrastructure.Services.Authentication;
 using Infrastructure.Services.Authorization;
+using Infrastructure.Services.DateTimeProvider;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ namespace Infrastructure
         private static IServiceCollection AddPersistence(this IServiceCollection services)
         {
             services.AddScoped<PublishDomainEventsInterceptor>();
-            services.AddScoped<ITOTaskRepository, TOTaskRepository>();
+            services.AddScoped<ITOProjectRepository, TOProjectRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
@@ -39,6 +40,7 @@ namespace Infrastructure
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddScoped<IAuthorizationService, AuthorizationService>();
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             return services;
         }
 

@@ -13,18 +13,16 @@ namespace Api.Controllers
     [ApiController]
     public class UserController(ISender mediatR, IMapper mapper) : ApiController
     {
-        private readonly ISender _mediatR = mediatR;
-        private readonly IMapper _mapper = mapper;
 
         [HttpPost("create")]
         [AllowAnonymous]
         public async Task<IActionResult> CreateUser(CreateUserRequest request)
         {
-            var command = _mapper.Map<CreateUserCommand>(request);
-            var result = await _mediatR.Send(command);
+            var command = mapper.Map<CreateUserCommand>(request);
+            var result = await mediatR.Send(command);
 
             return result.Match(
-                    success => Created("", _mapper.Map<CreateUserResponse>(success)),
+                    success => Created("", mapper.Map<CreateUserResponse>(success)),
                     Problem);
         }
 
@@ -32,11 +30,11 @@ namespace Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginUserRequest request)
         {
-            var query = _mapper.Map<LoginUserQuery>(request);
-            var result = await _mediatR.Send(query);
+            var query = mapper.Map<LoginUserQuery>(request);
+            var result = await mediatR.Send(query);
 
             return result.Match(
-                    success => Ok(_mapper.Map<LoginUserResponse>(success)),
+                    success => Ok(mapper.Map<LoginUserResponse>(success)),
                     Problem);
         }
 

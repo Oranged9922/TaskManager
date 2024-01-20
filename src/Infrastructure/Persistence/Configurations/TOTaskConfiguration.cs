@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Infrastructure.Persistence.Configurations
 {
 
-    public class TOTaskConfiguration : IEntityTypeConfiguration<TOTask>
+    public class TOTaskConfiguration : IEntityTypeConfiguration<TOProject>
     {
-        public void Configure(EntityTypeBuilder<TOTask> builder)
+        public void Configure(EntityTypeBuilder<TOProject> builder)
         {
             builder.HasKey(t => t.Id);
 
@@ -39,8 +39,8 @@ namespace Infrastructure.Persistence.Configurations
                 .WithMany(t => t.Blocks)
                 .UsingEntity<Dictionary<string, object>>(
                     "TaskBlock",
-                    b => b.HasOne<TOTask>().WithMany().HasForeignKey("BlockedById"),
-                    b => b.HasOne<TOTask>().WithMany().HasForeignKey("BlocksId")
+                    b => b.HasOne<TOProject>().WithMany().HasForeignKey("BlockedById"),
+                    b => b.HasOne<TOProject>().WithMany().HasForeignKey("BlocksId")
                 );
         }
     }
