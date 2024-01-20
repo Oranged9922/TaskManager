@@ -3,5 +3,5 @@ using MediatR;
 
 namespace Application.TOProjectLogic.Commands.CreateTOProject
 {
-    public record CreateTOProjectCommand() : IRequest<ErrorOr<CreateTOProjectCommandResponse>>;
+    public record CreateTOProjectCommand(string Name, string Description) : IRequest<ErrorOr<CreateTOProjectCommandResponse>>;
 }

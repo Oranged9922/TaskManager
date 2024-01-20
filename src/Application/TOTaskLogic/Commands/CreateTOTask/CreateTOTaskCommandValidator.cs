@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Application.TOTaskLogic.Commands.CreateTOTask
+﻿namespace Application.TOTaskLogic.Commands.CreateTOTask
 {
     public class CreateTOTaskCommandValidator : AbstractValidator<CreateTOTaskCommand>
     {

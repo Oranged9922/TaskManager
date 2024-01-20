@@ -1,6 +1,6 @@
-﻿namespace Contracts.TOProject.CreateTOProject
+﻿using MediatR;
+
+namespace Contracts.TOProject.CreateTOProject
 {
-    public class CreateTOProjectRequest
-    {
-    }
+    public record CreateTOProjectRequest(string Name, string Description);
 }

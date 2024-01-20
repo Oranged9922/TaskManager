@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Enums.User;
 using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -31,13 +32,13 @@ namespace Application.Common.Behaviors
             }
             catch
             {
-                return (dynamic)Domain.Common.Errors.Validation.UserNotAuthorized;
+                return (dynamic)Errors.Validation.UserNotAuthorized;
             }
             // Get the current user from the context
             var currentUser = _userContext.GetCurrentUser(jwtToken);
 
             // Get the policy name from the request type (or any other way you choose)
-            var policyName = typeof(TRequest).Name;
+            var policyName = UserRole.User.ToString();
 
             bool authorizationResult = _authorizationService.Authorize(currentUser.Value, policyName);
 
@@ -48,7 +49,7 @@ namespace Application.Common.Behaviors
 
             List<Error> errors =
                 [
-                Domain.Common.Errors.Validation.UserNotAuthorized,
+                Errors.Validation.UserNotAuthorized,
                 ];
 
             return (dynamic)errors;

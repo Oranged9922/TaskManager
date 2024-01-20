@@ -23,13 +23,13 @@ namespace Application.UserLogic.Commands.CreateUser
 
             if (user is not null)
             {
-                return Domain.Common.Errors.Repository.UserRepository.UsernameAlreadyExists;
+                return Errors.Repository.UserRepository.UsernameAlreadyExists;
             }
 
             user = userRepository.GetByEmail(request.Email);
             if (user is not null)
             {
-                return Domain.Common.Errors.Repository.UserRepository.UserWithEmailAlreadyExists;
+                return Errors.Repository.UserRepository.UserWithEmailAlreadyExists;
             }
 
             var passwordHash = passwordHasher.HashPassword(null!, request.Password);

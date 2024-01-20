@@ -1,5 +1,6 @@
-﻿
+﻿using Application.UserLogic.Queries.LoginUser;
 using Contracts.User.CreateUser;
+using Contracts.User.LoginUser;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Mvc;
@@ -127,14 +128,34 @@ namespace IntegrationTests.Common
             return list;
         }
 
-        public async Task CreateNewUser(string Name = "test", string Password = "P@ssw0rd!", string Email = "test@test.test")
+        public async Task<string> CreateNewUser(string Name = "test", string Password = "P@ssw0rd!", string Email = "test@test.test")
         {
             CreateUserRequest request = new(
                 Username: Name,
                 Password: Password,
                 Email: Email);
 
-            await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
+            var response = await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
+            var token = await response.ExtractAndParseJwtTokenAsync();
+            return token.UnsafeToString();
+        }
+
+        public async Task<string> CreateAndLoginTestUser(string Name = "test", string Password = "P@ssw0rd!", string Email = "test@test.test")
+        {
+            CreateUserRequest request = new(
+                Username: Name,
+                Password: Password,
+                Email: Email);
+
+            _ = await Client.PostAsJsonAsync(Endpoint.UserController.CreateUser, request);
+
+            LoginUserRequest loginRequest = new(
+                Username: Name,
+                Password: Password);
+
+            var response = await Client.PostAsJsonAsync(Endpoint.UserController.LoginUser, loginRequest);
+            var token = await response.ExtractAndParseJwtTokenAsync();
+            return token.UnsafeToString();
         }
     }
 }

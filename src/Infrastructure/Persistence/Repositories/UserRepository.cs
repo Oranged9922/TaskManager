@@ -14,12 +14,12 @@ namespace Infrastructure.Persistence.Repositories
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwtSecurityToken = tokenHandler.ReadToken(jwtToken) as JwtSecurityToken;
 
-            var userIdClaim = jwtSecurityToken?.Claims.First(claim => claim.Type == "id");
-            var roleClaim = jwtSecurityToken?.Claims.First(claim => claim.Type == "role");
+            var userIdClaim = jwtSecurityToken?.Claims.First(claim => claim.Type == "sub");
+            var roleClaim = jwtSecurityToken?.Claims.First(claim => claim.Type == "typ");
 
             if (userIdClaim == null || roleClaim == null)
             {
-                return Domain.Common.Errors.Validation.InvalidToken;
+                return Errors.Validation.InvalidToken;
             }
 
             var userId = new UserId(Guid.Parse(userIdClaim.Value));
@@ -28,7 +28,7 @@ namespace Infrastructure.Persistence.Repositories
 
             if (user is null)
             {
-                return Domain.Common.Errors.Repository.EntityDoesNotExist;
+                return Errors.Repository.EntityDoesNotExist;
             }
             return user;
         }

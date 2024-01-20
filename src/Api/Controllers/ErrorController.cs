@@ -6,6 +6,7 @@ namespace Api.Controllers
     /// <summary>
     /// Errors controller.
     /// </summary>
+    [Route("/error")]
     [ApiController]
     public class ErrorsController : ApiController
     {
@@ -13,7 +14,6 @@ namespace Api.Controllers
         /// Error.
         /// </summary>
         /// <returns> The response.</returns>
-        [Route("/error")]
         public IActionResult Error()
         {
             _ = HttpContext?.Features?.Get<IExceptionHandlerFeature>()?.Error;

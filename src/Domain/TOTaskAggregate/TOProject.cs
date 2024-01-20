@@ -5,7 +5,7 @@ using Domain.UserAggregate;
 
 namespace Domain.TOTaskAggregate
 {
-    public class TOTask : AggregateRoot<TOTaskId>
+    public class TOProject : AggregateRoot<TOProjectId>
     {
         public string Title { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
@@ -15,11 +15,11 @@ namespace Domain.TOTaskAggregate
         public virtual TOTaskLabel? Label { get; private set; } = null;
         public virtual User Creator { get; private set; } = default!;
         public virtual User? AssignedTo { get; private set; }
-        public virtual List<TOTask> BlockedBy { get; private set; } = [];
-        public virtual List<TOTask> Blocks { get; private set; } = [];
+        public virtual List<TOProject> BlockedBy { get; private set; } = [];
+        public virtual List<TOProject> Blocks { get; private set; } = [];
 
-        private TOTask(
-            TOTaskId taskId,
+        private TOProject(
+            TOProjectId taskId,
             string title,
             string description,
             TOTaskStatus status,
@@ -28,8 +28,8 @@ namespace Domain.TOTaskAggregate
             DateTimeOffset? dueDate,
             User creator,
             User? assignedTo,
-            List<TOTask> blockedBy,
-            List<TOTask> blocks
+            List<TOProject> blockedBy,
+            List<TOProject> blocks
             ) : base(taskId)
         {
             Title = title;
@@ -44,11 +44,11 @@ namespace Domain.TOTaskAggregate
             Blocks = blocks;
         }
 
-        protected TOTask() : base(TOTaskId.CreateUnique()) // Required for EF
+        protected TOProject() : base(TOProjectId.CreateUnique()) // Required for EF
         {
         }
 
-        public static TOTask Create(
+        public static TOProject Create(
             string title,
             string description,
             TOTaskStatus status,
@@ -57,11 +57,11 @@ namespace Domain.TOTaskAggregate
             DateTimeOffset? dueDate,
             User creator,
             User? assignedTo,
-            List<TOTask> blockedBy,
-            List<TOTask> blocks)
+            List<TOProject> blockedBy,
+            List<TOProject> blocks)
         {
-            TOTask task = new(
-                TOTaskId.CreateUnique(),
+            TOProject task = new(
+                TOProjectId.CreateUnique(),
                 title,
                 description,
                 status,

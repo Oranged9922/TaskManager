@@ -1,4 +1,4 @@
 ﻿namespace Application.TOProjectLogic.Commands.CreateTOProject
 {
-    public record CreateTOProjectCommandResponse();
+    public record CreateTOProjectCommandResponse(Guid Id, string Name);
 }
