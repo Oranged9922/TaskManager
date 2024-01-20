@@ -2,5 +2,5 @@
 
 namespace Domain.TOTaskAggregate.Events
 {
-    public record TOTaskCreated(TOProject TOTask) : IDomainEvent;
+    public record TOTaskCreated(TOTask TOTask) : IDomainEvent;
 }
