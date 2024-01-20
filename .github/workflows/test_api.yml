@@ -26,7 +26,7 @@ jobs:
       run: cd src && dotnet build --no-restore
     
     - name: Test
-      run: cd src && dotnet test --configuration=Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./coverage/
+      run: cd src && dotnet test --configuration=Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./coverage/ /p:ExcludeFromCoverage="**/Migrations/*"
 
     - name: Generate report
       run: cd src && reportgenerator "-reports:**/coverage/coverage.cobertura.xml" "-targetdir:./coverage/report" "-reporttypes:HtmlInline_AzurePipelines;Cobertura"
